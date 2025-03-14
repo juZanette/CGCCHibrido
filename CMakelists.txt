@@ -1,18 +1,21 @@
 cmake_minimum_required(VERSION 3.10)
 project(CGCCHIB)
 
+# Define o padrão do C++
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Ativa o FetchContent
 include(FetchContent)
 
+# Configura o FetchContent para baixar e compilar GLFW automaticamente
 FetchContent_Declare(
   glfw
   GIT_REPOSITORY https://github.com/glfw/glfw.git
   GIT_TAG 3.4  # Define a versão desejada da GLFW
 )
 
+# Faz o download e compila a GLFW
 FetchContent_MakeAvailable(glfw)
 
 # Adiciona as pastas de cabeçalhos
@@ -20,11 +23,20 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/include/glad)
 include_directories(${CMAKE_SOURCE_DIR}/common)
 
-# Lista de módulos
+# Adiciona opções de compilação
+add_compile_options(-Wno-pragmas)
+
+# Diretórios dos módulos
 set(MODULES M1 M2)
 
-# Adiciona cada módulo separadamente
+# Loop para criar um executável para cada exercício em cada módulo
 foreach(MODULE ${MODULES})
-    add_subdirectory(src/${MODULE})
+    file(GLOB EXERCISES "${CMAKE_SOURCE_DIR}/${MODULE}/*.cpp")
+    
+    foreach(EXERCISE ${EXERCISES})
+        get_filename_component(EXE_NAME ${EXERCISE} NAME_WE)
+        add_executable(${EXE_NAME} ${EXERCISE} Common/glad.c)
+        target_link_libraries(${EXE_NAME} glfw opengl32)
+    endforeach()
 endforeach()
 
