@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <assert.h>
-#include <vector>
 
 using namespace std;
 
@@ -47,9 +46,12 @@ const GLchar* fragmentShaderSource = "#version 450\n"
 "color = finalColor;\n"
 "}\n\0";
 
-bool rotateX = false, rotateY = false, rotateZ = false;
+// Variáveis de controle
 glm::vec3 cubePosition(0.0f, 0.0f, 0.0f);
 float cubeScale = 1.0f;
+float rotateAngleX = 0.0f;
+float rotateAngleY = 0.0f;
+float rotateAngleZ = 0.0f;
 
 // Função MAIN
 int main()
@@ -58,7 +60,7 @@ int main()
     glfwInit();
 
     // Criação da janela GLFW
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Ola 3D -- Cubo!", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Cubo 3D - Controle por Teclas", nullptr, nullptr);
     glfwMakeContextCurrent(window);
 
     // Fazendo o registro da função de callback para a janela GLFW
@@ -108,24 +110,13 @@ int main()
         glLineWidth(10);
         glPointSize(20);
 
-        float angle = (GLfloat)glfwGetTime();
-
+        // Aplicando transformações ao cubo
         model = glm::mat4(1);
         model = glm::translate(model, cubePosition);
         model = glm::scale(model, glm::vec3(cubeScale, cubeScale, cubeScale));
-
-        if (rotateX)
-        {
-            model = glm::rotate(model, angle, glm::vec3(1.0f, 0.0f, 0.0f));
-        }
-        else if (rotateY)
-        {
-            model = glm::rotate(model, angle, glm::vec3(0.0f, 1.0f, 0.0f));
-        }
-        else if (rotateZ)
-        {
-            model = glm::rotate(model, angle, glm::vec3(0.0f, 0.0f, 1.0f));
-        }
+        model = glm::rotate(model, glm::radians(rotateAngleX), glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(rotateAngleY), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(rotateAngleZ), glm::vec3(0.0f, 0.0f, 1.0f));
 
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
@@ -149,27 +140,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
 
-    if (key == GLFW_KEY_X && action == GLFW_PRESS)
-    {
-        rotateX = true;
-        rotateY = false;
-        rotateZ = false;
-    }
-
-    if (key == GLFW_KEY_Y && action == GLFW_PRESS)
-    {
-        rotateX = false;
-        rotateY = true;
-        rotateZ = false;
-    }
-
-    if (key == GLFW_KEY_Z && action == GLFW_PRESS)
-    {
-        rotateX = false;
-        rotateY = false;
-        rotateZ = true;
-    }
-
     // Controles de translação
     float translationSpeed = 0.1f;
     if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT))
@@ -191,6 +161,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         cubeScale -= scaleSpeed;
     if (key == GLFW_KEY_RIGHT_BRACKET && (action == GLFW_PRESS || action == GLFW_REPEAT))
         cubeScale += scaleSpeed;
+
+    // Controles de rotação
+    float rotationSpeed = 5.0f;
+    if (key == GLFW_KEY_X && (action == GLFW_PRESS || action == GLFW_REPEAT))
+        rotateAngleX += rotationSpeed;
+    if (key == GLFW_KEY_Y && (action == GLFW_PRESS || action == GLFW_REPEAT))
+        rotateAngleY += rotationSpeed;
+    if (key == GLFW_KEY_Z && (action == GLFW_PRESS || action == GLFW_REPEAT))
+        rotateAngleZ += rotationSpeed;
 }
 
 // Compilação e linkagem dos shaders
