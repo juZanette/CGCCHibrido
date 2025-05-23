@@ -40,3 +40,7 @@ foreach(MODULE ${MODULES})
     endforeach()
 endforeach()
 
+
+add_executable(AtividadeVivencial1 src/AtividadeVivencial1.cpp Common/glad.c)
+target_link_libraries(AtividadeVivencial1 glfw opengl32)
+
