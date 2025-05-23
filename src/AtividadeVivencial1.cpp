@@ -9,7 +9,7 @@
 
 using namespace std;
 
-// Função para carregar OBJ (com cor fixa por vértice, conforme diretrizes)
+// Função para carregar OBJ
 GLuint loadSimpleOBJ(string filePath, int &nVertices) {
     vector<float> vertices;
     vector<float> vBuffer;
@@ -53,7 +53,7 @@ GLuint loadSimpleOBJ(string filePath, int &nVertices) {
         vBuffer.push_back(vertices[idx]);
         vBuffer.push_back(vertices[idx + 1]);
         vBuffer.push_back(vertices[idx + 2]);
-        // Cor fixa (vermelho)
+        // Cores
         vBuffer.push_back(1.0f);
         vBuffer.push_back(0.0f);
         vBuffer.push_back(0.0f);
