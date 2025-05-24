@@ -34,8 +34,6 @@ O programa permite carregar modelos 3D (como a Suzanne e um cubo), exibi-los em 
 - **E / Q**: Aumenta / diminui a escala
 - **O**: Adiciona uma nova Suzanne na cena
 
-> **Obs:** O movimento e rotação são aplicados apenas ao modelo atualmente selecionado.
-
 ## Resultado
 
 Veja abaixo um exemplo do funcionamento da aplicação:
