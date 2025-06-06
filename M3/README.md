@@ -2,7 +2,7 @@
 
 ## Resumo da Atividade
 
-O objetivo desta tarefa é implementar a leitura das coordenadas de texturas presentes no arquivo .OBJ, armazenando-as como atributo dos vértices e as informações sobre a textura contidas no arquivo .MTL (no momento, apenas o nome da textura a ser carregada). Foi seguido o material de apoio para implementar o desenho do arquivo Suzanne.obj com textura.
+O objetivo desta tarefa é implementar a leitura das coordenadas de texturas presentes no arquivo .OBJ, armazenando-as como atributo dos vértices e as informações sobre a textura contidas no arquivo .MTL (no momento, apenas o nome da textura a ser carregada). Foi seguido o material de apoio para implementar o arquivo Suzanne.obj com textura.
 
 ## Como Executar
 
