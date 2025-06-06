@@ -44,3 +44,5 @@ endforeach()
 add_executable(AtividadeVivencial1 src/AtividadeVivencial1.cpp Common/glad.c)
 target_link_libraries(AtividadeVivencial1 glfw opengl32)
 
+add_executable(Triangle src/TriangleTex.cpp Common/glad.c)
+target_link_libraries(Triangle glfw opengl32)
