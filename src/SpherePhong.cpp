@@ -20,9 +20,11 @@ using namespace std;
 #include <GLFW/glfw3.h>
 
 // GLM
+#include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/constants.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -411,8 +413,7 @@ void drawGeometry(GLuint shaderID, GLuint VAO, vec3 position, vec3 dimensions, f
 }
 
 GLuint generateSphere(float radius, int latSegments, int lonSegments, int &nVertices) {
-    vector<GLfloat> vBuffer; // Posição + Cor + Normal + UV
-
+	std::vector<GLfloat> vBuffer; // Posição + Cor + Normal + UV
     vec3 color = vec3(1.0f, 0.0f, 0.0f); // Laranja
 
     auto calcPosUVNormal = [&](int lat, int lon, vec3& pos, vec2& uv, vec3& normal) {
