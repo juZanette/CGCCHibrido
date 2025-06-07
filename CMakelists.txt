@@ -47,5 +47,5 @@ target_link_libraries(AtividadeVivencial1 glfw opengl32)
 add_executable(Triangle src/TriangleTex.cpp Common/glad.c)
 target_link_libraries(Triangle glfw opengl32)
 
-add_executable(Sphere src/SpherePhong.cpp Common/glad.c)
-target_link_libraries(Sphere glfw opengl32)
+add_executable(AtividadeVivencial2 src/AtividadeVivencial2.cpp Common/glad.c)
+target_link_libraries(AtividadeVivencial2 glfw opengl32)
