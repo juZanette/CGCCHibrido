@@ -100,7 +100,7 @@ const GLchar* fragmentShaderSource = "#version 450\n"
 "        vec3 specular = ks * spec * lightColor;\n"
 "        result += (ambient + diffuse) * finalColor + specular;\n"
 "    }\n"
-"    color = vec4(result, 1.0);\n"
+"    color = vec4(result,1.0);\n"
 "}\0";
 
 // Estrutura para armazenar dados do modelo OBJ e transformações
