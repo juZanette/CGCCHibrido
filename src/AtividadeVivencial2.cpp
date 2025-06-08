@@ -283,7 +283,7 @@ int main()
     // Carregando OBJ
     int numVerticesSuzanne;
     std::vector<glm::vec3> verticesSuzanne;
-    GLuint suzanneVAO = loadSimpleOBJ("../assets/Modelos3D/Suzanne.obj", numVerticesSuzanne, glm::vec3(1.0f, 1.0f, 1.0f), verticesSuzanne); // Branco
+    GLuint suzanneVAO = loadSimpleOBJ("../assets/Modelos3D/Suzanne.obj", numVerticesSuzanne, glm::vec3(1.0f, 1.0f, 1.0f), verticesSuzanne); // Branco/cinza
     if (suzanneVAO != -1) {
         models.push_back(OBJModel(suzanneVAO, numVerticesSuzanne));
         models.back().vertices = verticesSuzanne;
