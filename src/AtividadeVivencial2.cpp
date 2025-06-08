@@ -429,7 +429,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         rotateX = false; rotateY = false; rotateZ = true;
     }
 
-    // Translação X/Z (WASD)
+    // Translação X/Z
     if (key == GLFW_KEY_W) isMovingForward = (action != GLFW_RELEASE);
     if (key == GLFW_KEY_S) isMovingBackward = (action != GLFW_RELEASE);
     if (key == GLFW_KEY_A) isMovingLeft = (action != GLFW_RELEASE);
@@ -439,7 +439,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     if (key == GLFW_KEY_I) isMovingUp = (action != GLFW_RELEASE);
     if (key == GLFW_KEY_J) isMovingDown = (action != GLFW_RELEASE);
 
-    // Escala ([ and ])
+    // Escala ([ e ])
     if (key == GLFW_KEY_LEFT_BRACKET) isScalingDown = (action != GLFW_RELEASE);
     if (key == GLFW_KEY_RIGHT_BRACKET) isScalingUp = (action != GLFW_RELEASE);
     
