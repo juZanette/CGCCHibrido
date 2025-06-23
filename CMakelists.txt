@@ -47,6 +47,7 @@ set(EXERCISES
     Hello3D
     Cubo
     TriangleTex
+    SpherePhong
     AtividadeVivencial1
     AtividadeVivencial2
 )
