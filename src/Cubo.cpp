@@ -62,11 +62,21 @@ const GLchar* fragmentShaderSource = "#version 450\n"
 "}\n\0";
 
 bool rotateX=false, rotateY=false, rotateZ=false;
-float translateX = 0.0f, translateY = 0.0f, translateZ = 0.0f;
 float scale = 1.0f;
 
-// Usa um vetor para offsets dinâmicos dos cubos
-std::vector<glm::vec3> cubeOffsets;
+// Estrutura para armazenar transformações individuais de cada cubo
+struct CubeTransform {
+	glm::vec3 position;
+	glm::vec3 translation = glm::vec3(0.0f);
+	bool rotateX = false, rotateY = false, rotateZ = false;
+	float scale = 1.0f;
+};
+
+// Vetor de cubos
+std::vector<CubeTransform> cubes;
+
+// Índice do cubo atualmente selecionado
+size_t selectedCubeIndex = 0;
 
 // Função MAIN
 int main()
@@ -88,7 +98,7 @@ int main()
 	//#endif
 
 	// Cria a janela GLFW
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Ola 3D – Júlia Zanette!", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Ola 3D - Cubo - M2!", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 
 	// Registra a função de callback do teclado
@@ -120,8 +130,8 @@ int main()
 	GLuint VAO = setupGeometry();
 
 	// Offset inicial do cubo - começa com apenas um cubo na origem
-	cubeOffsets.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
-
+	cubes.push_back({glm::vec3(0.0f, 0.0f, 0.0f)});
+	selectedCubeIndex = 0;
 
 	glUseProgram(shaderID);
 
@@ -138,41 +148,27 @@ int main()
 		glPointSize(5);
 		float angle = (GLfloat)glfwGetTime();
 		glBindVertexArray(VAO);
-		
-		// Obtém o índice do cubo atualmente selecionado (último cubo no vetor)
-		size_t selectedCubeIndex = cubeOffsets.empty() ? 0 : cubeOffsets.size() - 1;
 
-		// Itera pelo vetor dinâmico
-		for (size_t i = 0; i < cubeOffsets.size(); i++) {
+		// Itera pelo vetor de cubos
+		for (size_t i = 0; i < cubes.size(); i++) {
 			glm::mat4 model = glm::mat4(1);
-			
-			// Só aplica transformações ao cubo selecionado (último)
+
+			// Aplica transformações individuais
+			model = glm::translate(model, cubes[i].position + cubes[i].translation);
+
+			// Só aplica rotação ao cubo selecionado
 			if (i == selectedCubeIndex) {
-				// Aplica transformações na ordem correta
-				model = glm::translate(model, glm::vec3(translateX, translateY, translateZ)); // Translação global
-				
-				// Aplica rotação ao redor da posição atual
-				if (rotateX || rotateY || rotateZ) {
-					glm::vec3 cubeCenter = cubeOffsets[i]; // Obtém a posição do cubo
-					model = glm::translate(model, cubeCenter); // Move para a posição do cubo
-					
-					if (rotateX)
-						model = glm::rotate(model, angle, glm::vec3(1.0f, 0.0f, 0.0f));
-					else if (rotateY)
-						model = glm::rotate(model, angle, glm::vec3(0.0f, 1.0f, 0.0f));
-					else if (rotateZ)
-						model = glm::rotate(model, angle, glm::vec3(0.0f, 0.0f, 1.0f));
-					
-					model = glm::translate(model, -cubeCenter); // Move de volta
-				}
+				if (cubes[i].rotateX)
+					model = glm::rotate(model, angle, glm::vec3(1.0f, 0.0f, 0.0f));
+				else if (cubes[i].rotateY)
+					model = glm::rotate(model, angle, glm::vec3(0.0f, 1.0f, 0.0f));
+				else if (cubes[i].rotateZ)
+					model = glm::rotate(model, angle, glm::vec3(0.0f, 0.0f, 1.0f));
 			}
-			
-			// Aplica a posição base do cubo
-			model = glm::translate(model, cubeOffsets[i]);
-			
-			// Escala (afeta todos os cubos)
-			model = glm::scale(model, glm::vec3(scale));
-			
+
+			// Escala individual
+			model = glm::scale(model, glm::vec3(cubes[i].scale));
+
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
@@ -186,62 +182,67 @@ int main()
 	return 0;
 }
 
-// Função de callback do teclado - só pode ter uma instância (deve ser static se
-// estiver dentro de uma classe) - Chamada sempre que uma tecla é pressionada ou liberada via GLFW
+// Função de callback do teclado
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 
-	// Rotação
+	// Alterna cubo selecionado pressionando TAB
+	if (key == GLFW_KEY_TAB && action == GLFW_PRESS && !cubes.empty()) {
+		selectedCubeIndex = (selectedCubeIndex + 1) % cubes.size();
+	}
+
+	// Rotações (X, Y, Z)
 	if (key == GLFW_KEY_X && action == GLFW_PRESS) {
-		rotateX = true; rotateY = false; rotateZ = false;
+		cubes[selectedCubeIndex].rotateX = true;
+		cubes[selectedCubeIndex].rotateY = false;
+		cubes[selectedCubeIndex].rotateZ = false;
 	}
 	if (key == GLFW_KEY_Y && action == GLFW_PRESS) {
-		rotateX = false; rotateY = true; rotateZ = false;
+		cubes[selectedCubeIndex].rotateX = false;
+		cubes[selectedCubeIndex].rotateY = true;
+		cubes[selectedCubeIndex].rotateZ = false;
 	}
 	if (key == GLFW_KEY_Z && action == GLFW_PRESS) {
-		rotateX = false; rotateY = false; rotateZ = true;
+		cubes[selectedCubeIndex].rotateX = false;
+		cubes[selectedCubeIndex].rotateY = false;
+		cubes[selectedCubeIndex].rotateZ = true;
 	}
 
 	// Translação X/Z (WASD)
-	if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT)) translateZ -= 0.1f;
-	if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT)) translateZ += 0.1f;
-	if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT)) translateX -= 0.1f;
-	if (key == GLFW_KEY_D && (action == GLFW_PRESS || action == GLFW_REPEAT)) translateX += 0.1f;
+	if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT)) cubes[selectedCubeIndex].translation.z -= 0.1f;
+	if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT)) cubes[selectedCubeIndex].translation.z += 0.1f;
+	if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT)) cubes[selectedCubeIndex].translation.x -= 0.1f;
+	if (key == GLFW_KEY_D && (action == GLFW_PRESS || action == GLFW_REPEAT)) cubes[selectedCubeIndex].translation.x += 0.1f;
 
 	// Translação Y (I/J)
-	if (key == GLFW_KEY_I && (action == GLFW_PRESS || action == GLFW_REPEAT)) translateY += 0.1f;
-	if (key == GLFW_KEY_J && (action == GLFW_PRESS || action == GLFW_REPEAT)) translateY -= 0.1f;
+	if (key == GLFW_KEY_I && (action == GLFW_PRESS || action == GLFW_REPEAT)) cubes[selectedCubeIndex].translation.y += 0.1f;
+	if (key == GLFW_KEY_J && (action == GLFW_PRESS || action == GLFW_REPEAT)) cubes[selectedCubeIndex].translation.y -= 0.1f;
 
-	// Escala ([ e ])
-	if (key == GLFW_KEY_LEFT_BRACKET && (action == GLFW_PRESS || action == GLFW_REPEAT)) scale *= 0.9f;
+	// Escala (- e +)
+	if (key == GLFW_KEY_MINUS && (action == GLFW_PRESS || action == GLFW_REPEAT)) cubes[selectedCubeIndex].scale *= 0.9f;
+	if (key == GLFW_KEY_EQUAL && (action == GLFW_PRESS || action == GLFW_REPEAT)) cubes[selectedCubeIndex].scale *= 1.1f;
 
-	// Adiciona novo cubo ao pressionar 'N' com offset aleatório
-	if (key == GLFW_KEY_RIGHT_BRACKET && (action == GLFW_PRESS || action == GLFW_REPEAT)) scale *= 1.1f;    
-	
+	// Adiciona novo cubo ao pressionar 'N'
 	if (key == GLFW_KEY_N && action == GLFW_PRESS) {
 		// Gera posição aleatória para o novo cubo
 		glm::vec3 newPos(dis(gen), dis(gen), dis(gen));
 		// Garante uma distância mínima dos outros cubos para evitar sobreposição
 		bool validPosition = true;
-		for (const auto& offset : cubeOffsets) {
-			// Verifica se está muito próximo de outro cubo
-			if (glm::length(newPos - offset) < 1.0f) { 
+		for (const auto& cube : cubes) {
+			if (glm::length(newPos - cube.position) < 1.0f) {
 				validPosition = false;
 				break;
 			}
 		}
-		if (validPosition || cubeOffsets.empty()) {
-			cubeOffsets.push_back(newPos);
+		if (validPosition || cubes.empty()) {
+			cubes.push_back({newPos});
+			selectedCubeIndex = cubes.size() - 1; // Seleciona o novo cubo automaticamente
 		}
 	}
-
 }
 
-// Esta função é bastante codificada diretamente - objetivo é compilar e construir um programa de shader simples e único neste exemplo de código
-// O código fonte do vertex e fragment shader está nos arrays vertexShaderSource e fragmentShaderSource no início deste arquivo
-// A função retorna o identificador do programa de shader
 int setupShader()
 {
 	// Vertex shader
@@ -284,17 +285,8 @@ int setupShader()
 	return shaderProgram;
 }
 
-// Esta função é bastante codificada diretamente - objetivo é criar os buffers que armazenam a
-// geometria dos triângulos
-// Apenas atributo de coordenada nos vértices
-// 1 VBO com coordenadas, VAO com apenas 1 ponteiro de atributo
-// A função retorna o identificador do VAO
 int setupGeometry()
 {
-	// Aqui definimos as coordenadas x, y e z do triângulo e as armazenamos sequencialmente,
-	// já visando enviar para o VBO (Vertex Buffer Objects)
-	// Cada atributo de vértice (coordenada, cores, coordenadas de textura, normal, etc.)
-	// Pode ser armazenado em um único VBO ou em VBOs separados
 	GLfloat vertices[] = {
 		// Face +X (vermelho)
 		 0.5, -0.5, -0.5, 1,0,0,   0.5,  0.5, -0.5, 1,0,0,   0.5,  0.5,  0.5, 1,0,0,
