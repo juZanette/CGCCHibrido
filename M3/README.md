@@ -18,7 +18,7 @@ O objetivo desta tarefa é implementar a leitura das coordenadas de texturas pre
    ```
    Após a compilação, execute o programa com:
    ```
-   ./Triangle.exe
+   ./TriangleTex.exe
    ```
    Uma janela será aberta mostrando o modelo 3D.
 
