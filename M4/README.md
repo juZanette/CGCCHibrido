@@ -23,22 +23,15 @@ O objetivo desta atividade é implementar a iluminação Phong em um modelo 3D c
 
 ## Controles
 
-- **Rotação:**  
-  - X: Pressione `X`
-  - Y: Pressione `Y`
-  - Z: Pressione `Z`
-- **Translação:**  
-  - Frente/Trás: `W` / `S`
-  - Esquerda/Direita: `A` / `D`
-  - Cima/Baixo: `I` / `J`
-- **Escala:**  
-  - Aumentar: `]`
-  - Diminuir: `[`
+- **W / S**: Move o modelo selecionado para frente / trás
+- **A / D**: Move o modelo selecionado para esquerda / direita
+- **I / J**: Move o modelo selecionado para cima / baixo
+- **X / Y / Z**: Rotaciona o modelo selecionado nos respectivos eixos
 
 ## Resultado
 
 Veja abaixo um exemplo do funcionamento da aplicação:
 
-![Exemplo de execução](M4.png)
+![Exemplo de execução](M4.gif)
 
 ---
