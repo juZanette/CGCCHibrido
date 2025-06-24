@@ -1,4 +1,4 @@
-# Desafio M6 - Trajetória de Objetos 3D
+# Desafio M6
 
 ## Resumo da Atividade
 
