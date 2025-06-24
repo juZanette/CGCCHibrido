@@ -63,37 +63,37 @@ vec3 keepInBounds(const vec3& position) {
 // Flamingo 1
 vector<vec3> trajectoryPoints1 = {
     vec3(0.0f, 0.0f, -5.0f),
-    vec3(4.0f, 0.0f, -5.0f),
-    vec3(4.0f, 4.0f, -5.0f),
-    vec3(0.0f, 4.0f, -5.0f),
-    vec3(-4.0f, 4.0f, -5.0f),
-    vec3(-4.0f, 0.0f, -5.0f),
+    vec3(3.0f, 0.0f, -5.0f),
+    vec3(3.0f, 3.0f, -5.0f),
+    vec3(0.0f, 3.0f, -5.0f),
+    vec3(-3.0f, 3.0f, -5.0f),
+    vec3(-3.0f, 0.0f, -5.0f),
     vec3(0.0f, 0.0f, -5.0f)};
 size_t currentTargetIndex1 = 0;
 vec3 flamingoPosition1 = vec3(0.0f, 0.0f, -5.0f);
 
 // Flamingo 2
 vector<vec3> trajectoryPoints2 = {
-    vec3(4.0f, 0.0f, -5.0f),
-    vec3(4.0f, 4.0f, -5.0f),
-    vec3(0.0f, 4.0f, -5.0f),
-    vec3(-4.0f, 4.0f, -5.0f),
-    vec3(-4.0f, 0.0f, -5.0f),
+    vec3(3.0f, 0.0f, -5.0f),
+    vec3(3.0f, 3.0f, -5.0f),
+    vec3(0.0f, 3.0f, -5.0f),
+    vec3(-3.0f, 3.0f, -5.0f),
+    vec3(-3.0f, 0.0f, -5.0f),
     vec3(0.0f, 0.0f, -5.0f),
-    vec3(4.0f, 0.0f, -5.0f)};
+    vec3(3.0f, 0.0f, -5.0f)};
 size_t currentTargetIndex2 = 0;
-vec3 flamingoPosition2 = vec3(4.0f, 0.0f, -5.0f);
+vec3 flamingoPosition2 = vec3(3.0f, 0.0f, -5.0f);
 
 // Flamingo 3
 vector<vec3> trajectoryPoints3 = {
-    vec3(-4.0f, 0.0f, -5.0f),
-    vec3(-4.0f, -4.0f, -5.0f),
-    vec3(0.0f, -4.0f, -5.0f),
-    vec3(4.0f, -4.0f, -5.0f),
-    vec3(4.0f, 0.0f, -5.0f),
-    vec3(-4.0f, 0.0f, -5.0f)};
+    vec3(-3.0f, 0.0f, -5.0f),
+    vec3(-3.0f, -3.0f, -5.0f),
+    vec3(0.0f, -3.0f, -5.0f),
+    vec3(3.0f, -3.0f, -5.0f),
+    vec3(3.0f, 0.0f, -5.0f),
+    vec3(-3.0f, 0.0f, -5.0f)};
 size_t currentTargetIndex3 = 0;
-vec3 flamingoPosition3 = vec3(-4.0f, 0.0f, -5.0f);
+vec3 flamingoPosition3 = vec3(-3.0f, 0.0f, -5.0f);
 
 // Velocidade global
 float moveSpeed = 1.5f;
