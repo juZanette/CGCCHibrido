@@ -23,6 +23,7 @@ O objetivo desta tarefa é implementar trajetórias para objetos 3D em uma cena,
 
 ## Salvando e Carregando Trajetórias
 
+- Use as teclas `1`, `2` ou `3` para selecionar qual flamingo terá sua trajetória manipulada.
 - Ao pressionar `F`, a trajetória do flamingo selecionado é salva em um arquivo `.txt` na pasta `M6/` (ex: `trajetoriaFlamingo2.txt`).
 - Ao pressionar `L`, a trajetória correspondente é carregada do arquivo, atualizando o caminho do flamingo na cena.
 - Os arquivos `.txt` armazenam as coordenadas espaciais (x, y, z) de cada ponto da trajetória, uma linha por ponto.
