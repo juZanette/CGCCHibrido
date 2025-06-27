@@ -58,4 +58,8 @@ O visualizador é capaz de renderizar uma cena espacial com Lua, Marte e um Flam
 
 ![Exemplo de execução](GB.gif)
 
+![Exemplo de execução](GB1.gif)
+
+![Exemplo de execução](GB2.gif)
+
 ---
