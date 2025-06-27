@@ -892,11 +892,11 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 
         // Rotação (X, Y, Z)
         if (key == GLFW_KEY_X) {
-            rotateX = true; rotateY = false; rotateZ = false;
+            rotateY = true; rotateX = false; rotateZ = false;  
             cout << "Modo de rotacao em X ativado" << endl;
         }
         if (key == GLFW_KEY_Y) {
-            rotateX = false; rotateY = true; rotateZ = false;
+            rotateX = true; rotateY = false; rotateZ = false;  
             cout << "Modo de rotacao em Y ativado" << endl;
         }
         if (key == GLFW_KEY_Z) {
