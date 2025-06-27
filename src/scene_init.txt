@@ -1,0 +1,47 @@
+# Configuração da Cena - Formato: chave = valor
+
+# Câmera
+camera.position = -3.0 0.5 8.0
+camera.yaw = -90.0
+camera.pitch = 10.0
+camera.fov = 45.0
+camera.near = 0.1
+camera.far = 100.0
+
+# Luz
+light.position = 3.0 3.0 3.0
+light.color = 1.0 1.0 1.0
+
+# Objetos
+# Formato: objeto.propriedade = valor
+
+# Lua
+object.moon.file = ../assets/Modelos3D/moon.obj
+object.moon.mtl = ../assets/Modelos3D/moon.mtl
+object.moon.texture = ../assets/tex/moon_diffuse.png
+object.moon.position = -4.0 0.67 4.0
+object.moon.rotation = 0.0 0.0 0.0
+object.moon.scale = 0.5 0.5 0.5
+object.moon.animation = none
+
+# Marte
+object.mars.file = ../assets/Modelos3D/mars.obj
+object.mars.mtl = ../assets/Modelos3D/mars.mtl
+object.mars.texture = ../assets/tex/mars_diffuse.png
+object.mars.position = 0.0 0.0 -5.0
+object.mars.rotation = 0.0 0.0 0.0
+object.mars.scale = 0.5 0.5 0.5
+object.mars.animation = none
+
+# Flamingo
+object.flamingo.file = ../assets/Modelos3D/Flamingo.obj
+object.flamingo.mtl = ../assets/Modelos3D/Flamingo.mtl
+object.flamingo.texture.body = ../assets/tex/FlamingoBody.png
+object.flamingo.texture.eye = ../assets/tex/flamingoEye.png
+object.flamingo.position = 0.0 0.0 -5.0
+object.flamingo.rotation = 0.0 0.0 0.0
+object.flamingo.scale = 0.1 0.1 0.1
+object.flamingo.animation = orbit
+object.flamingo.orbit.target = mars
+object.flamingo.orbit.radius = 4.0
+object.flamingo.orbit.speed = 0.3
