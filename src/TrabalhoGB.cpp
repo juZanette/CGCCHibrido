@@ -537,8 +537,9 @@ int main()
     cout << "WASD: Mover objeto no plano XZ" << endl;
     cout << "I/K: Mover objeto para cima/baixo" << endl;
     cout << "+ / -: Aumentar/diminuir escala" << endl; 
-    cout << "Setas: Rotacionar camera" << endl;
-    cout << "Q/E: Mover camera para cima/baixo" << endl;
+    cout << "Setas: Mover camera pela cena" << endl;
+    cout << "J/L: Rotacionar camera horizontalmente" << endl;
+    cout << "I/K: Rotacionar camera verticalmente" << endl;
     cout << "================================================\n" << endl;
 
     while (!glfwWindowShouldClose(window))
@@ -944,19 +945,29 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 
         // Movimento da camera (com teclas de seta)
         if (key == GLFW_KEY_LEFT)
-            camera.rotate(-rotateSpeed, 0.0f);
+            camera.moveRight(-moveSpeed);  // Move para a esquerda
         if (key == GLFW_KEY_RIGHT)
-            camera.rotate(rotateSpeed, 0.0f);
+            camera.moveRight(moveSpeed);   // Move para a direita
         if (key == GLFW_KEY_UP)
-            camera.rotate(0.0f, rotateSpeed);
+            camera.moveForward(moveSpeed); // Move para frente
         if (key == GLFW_KEY_DOWN)
-            camera.rotate(0.0f, -rotateSpeed);
+            camera.moveForward(-moveSpeed); // Move para trás
         
         // Movimento da câmera (com Q/E)
         if (key == GLFW_KEY_Q)
             camera.moveUp(moveSpeed);
         if (key == GLFW_KEY_E)
             camera.moveUp(-moveSpeed);
+
+        // Controles de rotação da camera
+        if (key == GLFW_KEY_J)
+            camera.rotate(-rotateSpeed, 0.0f); // Rotaciona para esquerda
+        if (key == GLFW_KEY_L)
+            camera.rotate(rotateSpeed, 0.0f);  // Rotaciona para direita
+        if (key == GLFW_KEY_I)
+            camera.rotate(0.0f, rotateSpeed);  // Rotaciona para cima
+        if (key == GLFW_KEY_K)
+            camera.rotate(0.0f, -rotateSpeed); // Rotaciona para baixo
     }
     else if (action == GLFW_RELEASE) {
         // Liberar teclas de movimento
