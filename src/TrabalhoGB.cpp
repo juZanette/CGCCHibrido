@@ -369,23 +369,21 @@ int main()
         glfwTerminate();
         return -1;
     }
-
-    // Aplicar configurações
     
-    // Configurar câmera
+    // Configuração da câmera
     camera = Camera(cameraConfig.position, cameraConfig.yaw, cameraConfig.pitch);
     
-    // Configurar projeção
+    // Configuração da projeção
     mat4 projection = perspective(radians(cameraConfig.fov), 
                                  (float)WIDTH / (float)HEIGHT, 
                                  cameraConfig.nearPlane, 
                                  cameraConfig.farPlane);
     
-    // Configurar luz
+    // Configuração da luz
     vec3 lightPos = lightConfig.position;
     vec3 lightColor = lightConfig.color;
     
-    // Carregar objetos da configuração
+    // Configuração do shader
     GLuint shaderProgram = setupShader();
     
     // --- MOON ---
@@ -409,7 +407,7 @@ int main()
     moonVAO = setupGeometry(moonPositions, moonTexCoords, moonNormals);
     moonVertexCount = moonPositions.size();
     
-    // Aplicar configurações da lua
+    // Configuração da lua
     moonPosition = moonCfg.position;
     moonScale = moonCfg.scale;
     moonRotationX = moonCfg.rotation.x;
@@ -438,7 +436,7 @@ int main()
     marsVAO = setupGeometry(marsPositions, marsTexCoords, marsNormals);
     marsVertexCount = marsPositions.size();
     
-    // Aplicar configurações de Marte
+    // Configuração de Marte
     marsPosition = marsCfg.position;
     marsScale = marsCfg.scale;
     marsRotationX = marsCfg.rotation.x;
@@ -471,15 +469,14 @@ int main()
     flamingoVAO = setupGeometry(flamingoPositions, flamingoTexCoords, flamingoNormals);
     flamingoVertexCount = flamingoPositions.size();
     
-    // Aplicar configurações do flamingo
+    // Configuração do flamingo
     flamingoPosition = flamingoCfg.position;
     flamingoScale = flamingoCfg.scale;
     flamingoRotationX = flamingoCfg.rotation.x;
     flamingoRotationY = flamingoCfg.rotation.y;
     flamingoRotationZ = flamingoCfg.rotation.z;
     objectConfigs["flamingo"].material = flamingoMaterial;
-    
-    // Continuar com o resto do código...
+
     float lastFrameTime = glfwGetTime();
 
     GLuint bgShaderProgram;
@@ -501,6 +498,7 @@ int main()
         glDeleteShader(bgFragment);
     }
 
+    // Carregar textura de fundo
     GLuint backgroundTexID = loadTexture("../assets/tex/fundo-estrelas.jpg");
     if (backgroundTexID == 0) {
         cout << "Erro ao carregar textura de fundo." << endl;
@@ -550,7 +548,7 @@ int main()
 
         glfwPollEvents();
 
-        // Aplicar transformações ao objeto selecionado
+        // Processamento de entrada
         if (selectedObject == 0) {  // Moon
             // Translação
             if (isMovingForward) moonPosition.z -= translationSpeed * deltaTime;
@@ -610,20 +608,20 @@ int main()
         if (selectedObject != 2 && objectConfigs["flamingo"].animation == "orbit") {
             flamingoOrbitAngle += flamingoOrbitSpeed * deltaTime;
             
-            // Determinar o alvo da órbita
+            // Determina o alvo da órbita
             vec3 targetPosition;
             if (objectConfigs["flamingo"].orbitTarget == "mars") {
                 targetPosition = marsPosition;
             } else if (objectConfigs["flamingo"].orbitTarget == "moon") {
                 targetPosition = moonPosition;
             } else {
-                targetPosition = vec3(0.0f, 0.0f, -5.0f); // Posição padrão
+                targetPosition = vec3(0.0f, 0.0f, -5.0f);
             }
             
             flamingoPosition.x = targetPosition.x + flamingoOrbitRadius * cos(flamingoOrbitAngle);
             flamingoPosition.z = targetPosition.z + flamingoOrbitRadius * sin(flamingoOrbitAngle);
             
-            // Ajustar rotação para o flamingo apontar para a direção do movimento
+            // Ajusta a rotação para o flamingo apontar para a direção do movimento
             flamingoRotationY = glm::degrees(flamingoOrbitAngle) + 90.0f;
         }
 
@@ -651,21 +649,21 @@ int main()
         glUniform3fv(glGetUniformLocation(shaderProgram, "lightColor"), 1, value_ptr(lightColor));
         glUniform3fv(glGetUniformLocation(shaderProgram, "objectColor"), 1, value_ptr(objectColor));
 
-        // Desenhe a lua
+        // Desenho da lua
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, moonTextureID);
         glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0);
         drawObject(shaderProgram, moonVAO, moonVertexCount, moonPosition, moonScale, 
             vec3(moonRotationX, moonRotationY, moonRotationZ), objectConfigs["moon"].material);
 
-        // Desenhe Marte
+        // Desenho de Marte
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, marsTextureID);
         glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0);
         drawObject(shaderProgram, marsVAO, marsVertexCount, marsPosition, marsScale, 
             vec3(marsRotationX, marsRotationY, marsRotationZ), objectConfigs["mars"].material);
 
-        // Desenhe o flamingo
+        // Desenho do flamingo
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, flamingoBodyTextureID);
         glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0);
@@ -673,7 +671,7 @@ int main()
         drawObject(shaderProgram, flamingoVAO, flamingoVertexCount, flamingoPosition, flamingoScale, 
             vec3(flamingoRotationX, flamingoRotationY, flamingoRotationZ), objectConfigs["flamingo"].material);
 
-        // Desenhe o olho do flamingo
+        // Desenho do olho do flamingo
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, flamingoEyeTextureID);
         glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0);
@@ -822,7 +820,7 @@ GLuint loadTexture(const string &filePath)
 {
     int width, height, nrChannels;
     stbi_set_flip_vertically_on_load(true);
-    unsigned char *data = stbi_load(filePath.c_str(), &width, &height, &nrChannels, 4); // Forçar 4 canais
+    unsigned char *data = stbi_load(filePath.c_str(), &width, &height, &nrChannels, 4);
     GLenum format = GL_RGBA;
     if (!data)
     {
@@ -845,6 +843,8 @@ GLuint loadTexture(const string &filePath)
     stbi_image_free(data);
     return texID;
 }
+
+// Função para desenhar um objeto
 void drawObject(GLuint shaderProgram, GLuint VAO, size_t vertexCount, vec3 position, vec3 scaleVec, vec3 rotation, Material material)
 {
     mat4 model = translate(mat4(1.0f), position);
@@ -855,7 +855,7 @@ void drawObject(GLuint shaderProgram, GLuint VAO, size_t vertexCount, vec3 posit
 
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, value_ptr(model));
     
-    // Passar os coeficientes de material para o shader
+    // Passa os coeficientes de material para o shader
     glUniform3fv(glGetUniformLocation(shaderProgram, "Ka"), 1, value_ptr(material.ka));
     glUniform3fv(glGetUniformLocation(shaderProgram, "Kd"), 1, value_ptr(material.kd));
     glUniform3fv(glGetUniformLocation(shaderProgram, "Ks"), 1, value_ptr(material.ks));
@@ -945,13 +945,13 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 
         // Movimento da camera (com teclas de seta)
         if (key == GLFW_KEY_LEFT)
-            camera.moveRight(-moveSpeed);  // Move para a esquerda
+            camera.moveRight(-moveSpeed);  
         if (key == GLFW_KEY_RIGHT)
-            camera.moveRight(moveSpeed);   // Move para a direita
+            camera.moveRight(moveSpeed);   
         if (key == GLFW_KEY_UP)
-            camera.moveForward(moveSpeed); // Move para frente
+            camera.moveForward(moveSpeed); 
         if (key == GLFW_KEY_DOWN)
-            camera.moveForward(-moveSpeed); // Move para trás
+            camera.moveForward(-moveSpeed); 
         
         // Movimento da câmera (com Q/E)
         if (key == GLFW_KEY_Q)
@@ -961,12 +961,12 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 
         // Controles de rotação da camera
         if (key == GLFW_KEY_J)
-            camera.rotate(-rotateSpeed, 0.0f); // Rotaciona para esquerda
+            camera.rotate(-rotateSpeed, 0.0f); 
         if (key == GLFW_KEY_L)
-            camera.rotate(rotateSpeed, 0.0f);  // Rotaciona para direita
+            camera.rotate(rotateSpeed, 0.0f);  
     }
     else if (action == GLFW_RELEASE) {
-        // Liberar teclas de movimento
+        // Libera teclas de movimento
         if (key == GLFW_KEY_W) isMovingForward = false;
         if (key == GLFW_KEY_S) isMovingBackward = false;
         if (key == GLFW_KEY_A) isMovingLeft = false;
@@ -974,7 +974,7 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
         if (key == GLFW_KEY_I) isMovingUp = false;
         if (key == GLFW_KEY_K) isMovingDown = false;
         
-        // Novas teclas para escala
+        // Libera teclas de rotação
         if (key == GLFW_KEY_MINUS || key == GLFW_KEY_KP_SUBTRACT) isScalingDown = false;
         if (key == GLFW_KEY_EQUAL || key == GLFW_KEY_KP_ADD) isScalingUp = false;
     }
@@ -1022,7 +1022,7 @@ bool loadSceneConfig(const string &configFile) {
                 string objName = objKey.substr(0, dotPos);
                 string objProp = objKey.substr(dotPos + 1);
                 
-                // Certifique-se de que o objeto existe no mapa
+                // Verifica se o objeto já existe no mapa
                 if (objectConfigs.find(objName) == objectConfigs.end()) {
                     objectConfigs[objName] = ObjectConfig();
                 }
@@ -1164,7 +1164,7 @@ bool loadOBJ(const string &objPath, const string &mtlPath, string &textureFileOu
         }
     }
 
-    // Inicializar os valores padrão do material
+    // Inicializa os valores padrão do material
     outMaterial.ka = vec3(0.2f, 0.2f, 0.2f);
     outMaterial.kd = vec3(0.8f, 0.8f, 0.8f);
     outMaterial.ks = vec3(1.0f, 1.0f, 1.0f);
@@ -1213,7 +1213,7 @@ bool loadOBJ(const string &objPath, const string &mtlPath, string &textureFileOu
         }
     }
 
-    // Calcular normais
+    // Calcula normais
     outNormals.clear();
     for (size_t i = 0; i < outPositions.size(); i++) {
         // Normais apontando para fora do centro aproximado do objeto
