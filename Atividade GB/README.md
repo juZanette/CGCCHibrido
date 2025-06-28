@@ -46,8 +46,9 @@ Este projeto implementa um visualizador 3D interativo usando OpenGL, capaz de ca
 - **+ / -**: Aumenta/diminui a escala do objeto
 
 ### Controle de Câmera
-- **Setas direcionais**: Rotaciona a câmera
+- **Setas direcionais**: Movimenta a câmera pela cena
 - **Q / E**: Move a câmera para cima/baixo
+- **J / L**: Rotaciona a câmera horizontalmente
 
 ### Geral
 - **ESC**: Fecha a aplicação

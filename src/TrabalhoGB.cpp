@@ -539,7 +539,7 @@ int main()
     cout << "+ / -: Aumentar/diminuir escala" << endl; 
     cout << "Setas: Mover camera pela cena" << endl;
     cout << "J/L: Rotacionar camera horizontalmente" << endl;
-    cout << "I/K: Rotacionar camera verticalmente" << endl;
+    cout << "Q/E: Rotacionar camera verticalmente" << endl;
     cout << "================================================\n" << endl;
 
     while (!glfwWindowShouldClose(window))
@@ -964,10 +964,6 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
             camera.rotate(-rotateSpeed, 0.0f); // Rotaciona para esquerda
         if (key == GLFW_KEY_L)
             camera.rotate(rotateSpeed, 0.0f);  // Rotaciona para direita
-        if (key == GLFW_KEY_I)
-            camera.rotate(0.0f, rotateSpeed);  // Rotaciona para cima
-        if (key == GLFW_KEY_K)
-            camera.rotate(0.0f, -rotateSpeed); // Rotaciona para baixo
     }
     else if (action == GLFW_RELEASE) {
         // Liberar teclas de movimento
