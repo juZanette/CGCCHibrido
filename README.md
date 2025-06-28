@@ -7,19 +7,20 @@ Repositório de códigos em C++ utilizando OpenGL moderna (3.3+), criado para a 
 
 ```plaintext
 📂 CGCCHibrido/
-├── 📂 include/               # Cabeçalhos e bibliotecas de terceiros
-│   ├── 📂 glad/              # Cabeçalhos da GLAD (OpenGL Loader)
+├── 📂 include/                # Cabeçalhos e bibliotecas de terceiros
+│   ├── 📂 glad/               # Cabeçalhos da GLAD (OpenGL Loader)
 │   │   ├── glad.h
-│   │   ├── 📂 KHR/           # Diretório com cabeçalhos da Khronos (GLAD)
+│   │   ├── 📂 KHR/            # Diretório com cabeçalhos da Khronos (GLAD)
 │   │       ├── khrplatform.h
 ├── 📂 common/                 # Código reutilizável entre os projetos
 │   ├── glad.c                 # Implementação da GLAD
-├── 📂 src/                   # Código-fonte dos exercícios
-│   ├── Hello3D.cpp           
-│   ├── Cubo.cpp              
+├── 📂 src/                    |       
+│   ├── Hello3D.cpp            ├── Código-fonte dos exercícios
+│   ├── Cubo.cpp               │
 │   ├── ...                   
 ├── 📂 build/                 # Diretório gerado pelo CMake (não incluído no repositório)
 ├── 📂 assets/                # Diretório com modelos 3D, texturas, fontes etc
+├── 📂 Atividade GB           │
 ├── 📂 AtividadeVivencial1    │
 ├── 📂 AtividadeVivencial2    │
 ├── 📂 M1                     │
