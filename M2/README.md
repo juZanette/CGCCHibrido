@@ -27,7 +27,7 @@ O objetivo desta tarefa é implementar um visualizador 3D interativo de cubos, u
 - **I / J**: Move o cubo selecionado para cima / baixo (eixo Y)
 - **- / +**: Diminui / aumenta a escala do cubo selecionado
 - **X / Y / Z**: Rotaciona o cubo selecionado nos respectivos eixos
-- **N**: Adiciona um novo cubo na cena, em posição aleatória (sem sobreposição)
+- **N**: Adiciona um novo cubo na cena, em posição aleatória
 
 ## Resultado
 
