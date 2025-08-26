@@ -34,7 +34,7 @@ Repositório de códigos em C++ utilizando OpenGL moderna (3.3+), criado para a 
 ├── 📄 GettingStarted.md      # Tutorial detalhado sobre como compilar usando o CMake
 ```
 
-## 💻 Instruções - Configuração do Ambiente 
+## 💻 Configuração do Ambiente 
 
-Disponíveis em: [GettingStarted.md](https://github.com/juZanette/CGCCHibrido/blob/main/GettingStarted.md)
+Instruções disponíveis em: [GettingStarted.md](https://github.com/juZanette/CGCCHibrido/blob/main/GettingStarted.md)
 
